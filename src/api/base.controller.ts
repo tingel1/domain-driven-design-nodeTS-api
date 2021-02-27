@@ -1,8 +1,6 @@
 import * as express from 'express'
 import {StatusCodes, ReasonPhrases} from "http-status-codes";
 
-
-
 export abstract  class BaseController {
   protected abstract implementation (req: express.Request, res: express.Response): Promise<void | any>
 
