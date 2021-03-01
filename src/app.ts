@@ -1,10 +1,9 @@
 import express from 'express';
-import {exampleRouter} from "./api/domains/create-exmaple";
+import {bookRouter} from "./api/controllers/book/book-api";
 
 const app = express();
 
-app.use('/example', exampleRouter)
-
+app.use('/book', bookRouter)
 
 const port: string | number = process.env.PORT || 3020
 
