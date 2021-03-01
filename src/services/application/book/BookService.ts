@@ -3,8 +3,13 @@ import {IBookServiceResponse} from "../../../domain/service-interfaces/book/IBoo
 import {IBookServiceGetResponse} from "../../../domain/service-interfaces/book/IBookServiceGetResponse";
 import {BookServiceGetResponse} from "./BookServiceGetResponse";
 import {BookServiceResponse} from "./BookServiceResponse";
+import {IBookRepository} from "../../../domain/interfaces/book/IBookRepository";
+import {IBook} from "../../../domain/model/interfaces/IBook";
 
 export class BookService implements IBookService {
+    constructor(private bookRepository: IBookRepository) {
+    }
+
     add(): IBookServiceResponse {
         return new BookServiceResponse().success();
     }
@@ -14,8 +19,7 @@ export class BookService implements IBookService {
     }
 
     get(): IBookServiceGetResponse {
-
-        return new BookServiceGetResponse().success([]);
+        const books: IBook[] =  this.bookRepository.getAll();
+        return new BookServiceGetResponse().success(books);
     }
-
 }

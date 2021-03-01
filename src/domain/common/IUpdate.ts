@@ -1,3 +1,3 @@
 export interface IUpdate <T> {
-    Update(model: T[]): number
+    update(model: T[]): number
 }
