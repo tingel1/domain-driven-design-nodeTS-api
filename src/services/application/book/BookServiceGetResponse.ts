@@ -4,10 +4,10 @@ import {IResponseBuilder} from "../../interfaces/IResponseBuilder";
 import {ErrorCodes} from "../../enums/ErrorCodes";
 
 export class BookServiceGetResponse implements IBookServiceGetResponse, IResponseBuilder<IBook[]> {
-    books: IBook[];
-    errorCode: ErrorCodes;
-    errorMessage: string;
-    isSuccess: boolean;
+    books!: IBook[];
+    errorCode!: ErrorCodes;
+    errorMessage!: string;
+    isSuccess: boolean = false;
 
     error(code: ErrorCodes, message: string) {
         this.books = [];
@@ -17,7 +17,7 @@ export class BookServiceGetResponse implements IBookServiceGetResponse, IRespons
         return this;
     }
 
-    success(payload?: IBook[]) {
+    success(payload: IBook[]) {
         this.books = [...payload];
         this.errorCode = ErrorCodes.OK;
         this.errorMessage = ""

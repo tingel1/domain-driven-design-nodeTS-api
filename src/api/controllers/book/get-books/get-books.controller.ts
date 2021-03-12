@@ -11,13 +11,13 @@ export class GetBooksController extends BaseController {
     // TODO: Easy to test because controllers are small
     protected async implementation(req: express.Request, res: express.Response): Promise<void | any> {
         try{
-            const serviceResponse: IBookServiceGetResponse = this.bookService.get();
+            const serviceResponse: IBookServiceGetResponse = await this.bookService.get();
             if(!serviceResponse.isSuccess){
                 return this.clientError(res);
             }
-
             return this.ok(res, serviceResponse.books);
         }catch(error){
+            // TODO: Replace error.toString() with ResponseMassageFactory
             return this.fail(res, error.toString())
         }
     }

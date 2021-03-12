@@ -1,35 +1,50 @@
 import {IBookRepository} from "../../../../domain/interfaces/book/IBookRepository";
-import {Book} from "../../../../domain/model/data/book";
 import {GUID} from "../../../../domain/model/interfaces/types";
 import {IBook} from "../../../../domain/model/interfaces/IBook";
+import {Book} from "../../../../domain/model/data/book";
+import {Identity} from "../../../../domain/model/data/Identity";
+import {GetAll} from "./queries/get-all";
+import {using} from "../../../../domain/primitives/IDisposable";
+
 
 // TODO: Here is the problem, this file is much to big!!!
 export class MongoDbBookRepository implements IBookRepository {
-    add(model: Book): GUID;
-    add(models: Book[]): GUID[];
-    add(model: Book | Book[]): GUID | GUID[] {
-        return undefined;
+    constructor() {
     }
 
-    delete(id: GUID): number;
-    delete(model: Book): number;
-    delete(id: GUID | Book): number {
-        return 0;
+    async add(model: IBook): Promise<GUID> {
+        return Promise.resolve('to implement');
     }
 
-    get(id: GUID): IBook {
-        return undefined;
-    }
-
-    getAll(): IBook[] {
+    async addMany(models: IBook[][]): Promise<GUID[]> {
         return [];
     }
 
-    getMany(ids: GUID[]): IBook[] {
-        return [];
+    async delete(id: GUID): Promise<number> {
+        return Promise.resolve(123);
     }
 
-    update(model: Book[]): number {
-        return 0;
+    async get(id: GUID): Promise<IBook> {
+        return Promise.resolve(new Book('12',
+            new Identity('123', '34'),
+            '123', '123', '123', '123'));
+    }
+
+    async getAll(): Promise<IBook[]> {
+        let books: IBook[] = [];
+
+        await using(await new GetAll().instance(), async (getAll: GetAll )=>{
+            books = await getAll.execute();
+        })
+
+        return Promise.resolve(books);
+    }
+
+    async getMany(ids: GUID[]): Promise<IBook[]> {
+        return Promise.resolve([]);
+    }
+
+    async update(model: IBook[][]): Promise<number> {
+        return Promise.resolve(123);
     }
 }

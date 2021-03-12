@@ -3,9 +3,9 @@ import {ErrorCodes} from "../../enums/ErrorCodes";
 import {IResponseBuilder} from "../../interfaces/IResponseBuilder";
 
 export class BookServiceResponse implements IBookServiceResponse, IResponseBuilder<any> {
-    errorCode: ErrorCodes;
-    errorMessage: string;
-    isSuccess: boolean;
+    errorCode!: ErrorCodes;
+    errorMessage!: string;
+    isSuccess!: boolean;
 
     error(code: ErrorCodes, message: string) {
         this.errorCode = code;

@@ -1,0 +1,35 @@
+version: '3.1'
+
+services:
+
+  mongo:
+    image: mongo
+    restart: always
+    container_name: "ddd-mongo"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_INITDB_DATABASE: admin
+      MONGODB_DATA_DIR: /var/lib/mongo/data
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodbdata:/var/lib/mongo/data
+
+
+  postgres:
+    image: "postgres:11"
+    container_name: "ddd-postgres"
+    restart: always
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - my_dbdata:/var/lib/postgresql/data
+
+volumes:
+  my_dbdata:
+  mongodbdata:

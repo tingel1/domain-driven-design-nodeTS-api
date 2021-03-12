@@ -4,22 +4,21 @@ import {IBookServiceGetResponse} from "../../../domain/service-interfaces/book/I
 import {BookServiceGetResponse} from "./BookServiceGetResponse";
 import {BookServiceResponse} from "./BookServiceResponse";
 import {IBookRepository} from "../../../domain/interfaces/book/IBookRepository";
-import {IBook} from "../../../domain/model/interfaces/IBook";
 
 export class BookService implements IBookService {
     constructor(private bookRepository: IBookRepository) {
     }
 
-    add(): IBookServiceResponse {
-        return new BookServiceResponse().success();
+    add(): Promise<IBookServiceResponse> {
+        return Promise.resolve(new BookServiceResponse().success());
     }
 
-    delete(): IBookServiceResponse {
-        return new BookServiceResponse().success();
+    delete(): Promise<IBookServiceResponse> {
+        return Promise.resolve(new BookServiceResponse().success());
     }
 
-    get(): IBookServiceGetResponse {
-        const books: IBook[] =  this.bookRepository.getAll();
+    async get(): Promise<IBookServiceGetResponse> {
+        const books: any =  await this.bookRepository.getAll();
         return new BookServiceGetResponse().success(books);
     }
 }

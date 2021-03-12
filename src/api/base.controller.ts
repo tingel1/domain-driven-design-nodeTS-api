@@ -20,14 +20,17 @@ export abstract  class BaseController {
   public ok<T> (res: express.Response, value?: T){
     if(value){
       res.type('application/json');
-      return res.sendStatus(StatusCodes.OK).json(value);
+      res.status(StatusCodes.OK).json(value);
+
     }
 
-    return res.sendStatus(StatusCodes.OK);
+    res.status(StatusCodes.OK);
+    return res.end()
   }
 
   public created(res: express.Response){
-    return res.sendStatus(StatusCodes.CREATED);
+    res.status(StatusCodes.CREATED);
+    return res.end()
   }
 
   public clientError (res: express.Response, message?: string) {
@@ -45,8 +48,9 @@ export abstract  class BaseController {
 
   public fail (res: express.Response, error: Error | string) {
     console.log(error);
-    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
       message: error.toString()
     })
+    return res.end()
   }
 }
