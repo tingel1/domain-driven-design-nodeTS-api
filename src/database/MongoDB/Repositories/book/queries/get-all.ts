@@ -1,29 +1,20 @@
 import {IBook} from "../../../../../domain/model/interfaces/IBook";
-import {MongoClient, Collection} from "mongodb";
-import {IDisposable} from "../../../../../domain/primitives/IDisposable";
+import {using} from "../../../../../domain/primitives/IDisposable";
+import {MongoDb} from "../../common/MongoDb";
 
-export class GetAll implements IDisposable {
-    client!: MongoClient;
-    collection!: Collection
+export class GetAll {
+    mongoDb: MongoDb;
 
-    async instance () {
-        const uri =
-            "mongodb://root:example@localhost:27017/admin";
-
-        this.client = new MongoClient(uri);
-        await this.client.connect();
-        this.collection = await this.client.db('books').collection('book-store')
-        return this;
+    constructor(client: MongoDb) {
+        this.mongoDb = client;
     }
 
     async execute(): Promise<IBook[]> {
-        const response = await this.collection.find({}).toArray();
-        return Promise.resolve(response);
-    }
-
-    dispose(): void {
-        if (this.client) {
-            this.client.close();
-        }
+        let books: IBook[] = [];
+        await using(await this.mongoDb.getCollection('book-store') ,
+            async (instance: MongoDb) => {
+            books = await instance.collection.find({}).toArray();
+        })
+        return books
     }
 }

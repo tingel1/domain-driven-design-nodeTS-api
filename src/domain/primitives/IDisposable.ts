@@ -4,7 +4,7 @@ export interface IDisposable {
 
 export async function using<T extends IDisposable>(resource: T, func: (resource: T) => void) {
     try {
-        func(resource);
+        await func(resource);
     } finally {
         resource.dispose();
     }

@@ -5,6 +5,7 @@ import {Book} from "../../../../domain/model/data/book";
 import {Identity} from "../../../../domain/model/data/Identity";
 import {GetAll} from "./queries/get-all";
 import {using} from "../../../../domain/primitives/IDisposable";
+import {MongoDb} from "../common/MongoDb";
 
 
 // TODO: Here is the problem, this file is much to big!!!
@@ -31,13 +32,7 @@ export class MongoDbBookRepository implements IBookRepository {
     }
 
     async getAll(): Promise<IBook[]> {
-        let books: IBook[] = [];
-
-        await using(await new GetAll().instance(), async (getAll: GetAll )=>{
-            books = await getAll.execute();
-        })
-
-        return Promise.resolve(books);
+        return await new GetAll(new MongoDb()).execute();
     }
 
     async getMany(ids: GUID[]): Promise<IBook[]> {
